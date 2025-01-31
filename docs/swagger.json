@@ -1,0 +1,318 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Typescript assessment",
+    "description": "Simple API with Typescript",
+    "version": "1.0"
+  },
+  "components": {
+    "schemas": {
+      "UserRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Smith"
+          },
+          "location": {
+            "type": "string",
+            "example": "Asia/Jakarta",
+            "description": "Location is an IANA timezone, please refer to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date",
+            "example": "2020-12-01"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "johnsmith@gmail.com"
+          }
+        },
+        "required": ["firstName", "lastName", "location", "birthday", "email"]
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "User created"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "example": "John"
+              },
+              "lastName": {
+                "type": "string",
+                "example": "Smith"
+              },
+              "location": {
+                "type": "string",
+                "example": "Asia/Jakarta"
+              },
+              "birthday": {
+                "type": "string",
+                "format": "date",
+                "example": "2020-12-01"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "example": "johnsmith@gmail.com"
+              },
+              "notificationSentAt": {
+                "type": "null",
+                "example": null
+              },
+              "notificationFailedAt": {
+                "type": "null",
+                "example": null
+              },
+              "id": {
+                "type": "integer",
+                "example": 6
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2025-01-30T01:19:39.000Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2025-01-30T01:19:39.000Z"
+              }
+            },
+            "required": [
+              "firstName",
+              "lastName",
+              "location",
+              "birthday",
+              "email",
+              "notificationSentAt",
+              "notificationFailedAt",
+              "id",
+              "createdAt",
+              "updatedAt"
+            ]
+          }
+        },
+        "required": ["message", "data"]
+      },
+      "ErrorValidationResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Invalid data"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string",
+                  "example": "email"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "email is Required"
+                }
+              },
+              "required": ["field", "message"]
+            }
+          }
+        },
+        "required": ["error", "details"]
+      },
+      "DefaultError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Internal Server Error / Not Found"
+          }
+        },
+        "required": ["message"]
+      },
+      "DefaultSuccess": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Success"
+          }
+        },
+        "required": ["message"]
+      }
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "summary": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorValidationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an existing user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "ID of the user to update"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorValidationResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "ID of the user to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultSuccess"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

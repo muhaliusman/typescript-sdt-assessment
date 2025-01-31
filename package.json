@@ -1,0 +1,66 @@
+{
+  "scripts": {
+    "start": "ts-node -r tsconfig-paths/register src/server.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
+    "build": "tsc",
+    "test": "jest",
+    "test:e2e": "NODE_ENV=test jest --config ./test/jest-e2e.json",
+    "lint": "eslint \"{src,test}/**/*.ts\" --fix",
+    "typeorm": "ts-node ./node_modules/typeorm/cli",
+    "migration:run": "npm run typeorm migration:run -- -d ./src/config/typeorm.config.ts",
+    "migration:create": "npm run typeorm migration:create ./src/database/migrations/$npm_config_name",
+    "migration:revert": "npm run typeorm migration:revert -- -d ./src/config/typeorm.config.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
+    "@types/supertest": "^6.0.2",
+    "@types/swagger-ui-express": "^4.1.7",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
+    "eslint": "^9.19.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.22.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "http-status-codes": "^2.3.0",
+    "inversify": "^6.2.1",
+    "moment-timezone": "^0.5.47",
+    "mysql": "^2.18.1",
+    "reflect-metadata": "^0.2.2",
+    "swagger-ui-express": "^5.0.1",
+    "tsconfig-paths": "^4.2.0",
+    "typeorm": "^0.3.20",
+    "zod": "^3.24.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^(utils|services|entities|config|controllers|middlewares|repositories|exceptions)/(.*)$": "<rootDir>/$1/$2"
+    }
+  }
+}

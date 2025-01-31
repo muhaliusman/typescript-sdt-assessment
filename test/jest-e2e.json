@@ -1,0 +1,14 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "globalTeardown": "./jest-e2e.teardown.ts",
+  "globalSetup": "./jest-e2e.setup.ts",
+  "moduleNameMapper": {
+    "^(utils|services|entities|config|controllers|middleware|routes|repositories|schemas|exceptions)/(.*)$": "<rootDir>/../src/$1/$2"
+  }
+}

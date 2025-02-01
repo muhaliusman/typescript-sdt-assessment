@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { z, ZodError, ZodIssue } from "zod";
 import { StatusCodes } from "http-status-codes";
-import ApiResponse from "utils/api-response.util";
+import ApiResponse from "../utils/api-response.util";
 
 export default class ValidationMiddleware {
   static validate<T extends z.ZodType>(schema: T) {

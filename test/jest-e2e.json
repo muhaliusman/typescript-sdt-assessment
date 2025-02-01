@@ -9,6 +9,6 @@
   "globalTeardown": "./jest-e2e.teardown.ts",
   "globalSetup": "./jest-e2e.setup.ts",
   "moduleNameMapper": {
-    "^(utils|services|entities|config|controllers|middleware|routes|repositories|schemas|exceptions)/(.*)$": "<rootDir>/../src/$1/$2"
+    "^(docs|workers|utils|services|entities|config|controllers|middleware|routes|repositories|schemas|exceptions|queues|cron)/(.*)$": "<rootDir>/../src/$1/$2"
   }
 }

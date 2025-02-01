@@ -1,15 +1,19 @@
-import { AppDataSource } from "config/typeorm.config";
 import express, { Application } from "express";
-import { env } from "../env";
-import userRoute from "routes/user.route";
 import bodyParser from "body-parser";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "../docs/swagger.json";
-import ErrorHandler from "utils/error-handler.util";
+import cron from "node-cron";
+import { AppDataSource } from "./config/typeorm.config";
+import { env } from "./env";
+import swaggerDocument from "./docs/swagger.json";
+import ErrorHandler from "./utils/error-handler.util";
+import userRoute from "./routes/user.route";
+import container from "./config/inversify.config";
+import SendBirthdayMessageCron from "./cron/send-birthday-message.cron";
 
 export class App {
   private readonly app: Application;
   private readonly port: number;
+  private crons: cron.ScheduledTask[];
   private dataSource: typeof AppDataSource;
 
   constructor() {
@@ -17,11 +21,14 @@ export class App {
     this.port = env.APP_PORT;
   }
 
-  public async init() {
+  public async init(withCron: boolean = true) {
     this.initPlugins();
     await this.initDB();
     this.initSwagger();
     this.initRoutes();
+
+    if (withCron) this.initCronJobs();
+
     this.initErrorHandler();
   }
 
@@ -49,9 +56,26 @@ export class App {
     this.app.use("/api/users", userRoute);
   }
 
+  private initCronJobs() {
+    const birthdayCron = container.get<SendBirthdayMessageCron>(
+      SendBirthdayMessageCron
+    );
+    this.crons = [
+      cron.schedule("0 * * * *", async () => {
+        await birthdayCron.run();
+      }),
+    ];
+  }
+
   public listen() {
-    this.app.listen(this.port, () => {
+    return this.app.listen(this.port, () => {
       console.log(`Server is running on port ${this.port}`);
+    });
+  }
+
+  public closeCrons() {
+    this.crons.forEach(async (cron) => {
+      cron.stop();
     });
   }
 

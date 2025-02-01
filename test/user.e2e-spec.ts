@@ -1,6 +1,6 @@
-import User from "entities/user.entity";
 import { App } from "../src/app";
 import request from "supertest";
+import User from "../src/entities/user.entity";
 
 let app: App;
 
@@ -35,7 +35,7 @@ type ErrorResponse = {
 
 beforeAll(async () => {
   app = new App();
-  await app.init();
+  await app.init(false);
 });
 
 afterAll(async () => {

@@ -19,14 +19,17 @@ export default class CreateUsersTable1738161370331
             name: "email",
             type: "varchar",
             isUnique: true,
+            length: "100",
           },
           {
             name: "first_name",
             type: "varchar",
+            length: "200",
           },
           {
             name: "last_name",
             type: "varchar",
+            length: "200",
           },
           {
             name: "birthday",
@@ -38,14 +41,18 @@ export default class CreateUsersTable1738161370331
             length: "30",
           },
           {
+            name: "next_notification_at",
+            type: "timestamp",
+          },
+          {
             name: "notification_sent_at",
             type: "timestamp",
             isNullable: true,
           },
           {
-            name: "notification_failed_at",
-            type: "timestamp",
-            isNullable: true,
+            name: "birthday_notif_locked",
+            type: "boolean",
+            default: false,
           },
           {
             name: "created_at",
@@ -66,6 +73,14 @@ export default class CreateUsersTable1738161370331
       new TableIndex({
         name: "IDX_USERS_EMAIL",
         columnNames: ["email"],
+      })
+    );
+
+    await queryRunner.createIndex(
+      "users",
+      new TableIndex({
+        name: "IDX_USERS_NEXT_NOTIFICATION_AT",
+        columnNames: ["next_notification_at"],
       })
     );
   }

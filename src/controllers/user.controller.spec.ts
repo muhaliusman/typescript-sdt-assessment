@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { HttpStatusCode } from "axios";
-import ApiResponse from "utils/api-response.util";
 import UserController from "./user.controller";
-import UserService from "services/user.service";
-import User from "entities/user.entity";
-import NotFoundException from "exceptions/not-found.exception";
+import UserService from "../services/user.service";
+import ApiResponse from "../utils/api-response.util";
+import User from "../entities/user.entity";
+import NotFoundException from "../exceptions/not-found.exception";
 
 jest.mock("../utils/api-response.util.ts", () => ({
   success: jest.fn(),

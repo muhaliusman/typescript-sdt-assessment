@@ -48,11 +48,17 @@ export default class User {
   notificationSentAt: Date | null;
 
   @Column({
-    nullable: true,
     type: "datetime",
-    name: "notification_failed_at",
+    name: "next_notification_at",
   })
-  notificationFailedAt: Date | null;
+  nextNotificationAt!: Date;
+
+  @Column({
+    type: "boolean",
+    default: false,
+    name: "birthday_notif_locked",
+  })
+  birthdayNotifLocked!: boolean;
 
   @CreateDateColumn({ type: "timestamp", name: "created_at" })
   readonly createdAt!: Date;

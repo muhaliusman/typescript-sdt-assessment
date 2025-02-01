@@ -22,6 +22,13 @@ const envSchema = z.object({
   DB_USER: z.string().nonempty(),
   DB_PASSWORD: z.string().nonempty(),
   DB_NAME: z.string().nonempty(),
+  REDIS_PORT: z
+    .string()
+    .regex(/^\d+$/, { message: "Redis port must be a number" })
+    .transform(Number)
+    .default("6379"),
+  REDIS_HOST: z.string().nonempty(),
+  EMAIL_ENDPOINT: z.string().nonempty(),
 });
 
 export const env = envSchema.parse(process.env);

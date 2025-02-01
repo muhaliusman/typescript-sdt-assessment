@@ -1,5 +1,5 @@
-import BaseException from "exceptions/base.exception";
 import { Request, Response, NextFunction } from "express";
+import BaseException from "../exceptions/base.exception";
 
 export default class ErrorHandler {
   static handle(error: Error, req: Request, res: Response, next: NextFunction) {

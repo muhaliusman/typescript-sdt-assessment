@@ -1,9 +1,9 @@
-import container from "config/inversify.config";
-import UserController from "controllers/user.controller";
 import { Router } from "express";
-import AsyncHandler from "middleware/async-handler.middleware";
-import ValidationMiddleware from "middleware/validation.middleware";
-import { createOrUpdateUserSchema } from "schemas/user.schema";
+import UserController from "../controllers/user.controller";
+import container from "../config/inversify.config";
+import { createOrUpdateUserSchema } from "../schemas/user.schema";
+import ValidationMiddleware from "../middleware/validation.middleware";
+import AsyncHandler from "../middleware/async-handler.middleware";
 
 class UserRoute {
   private readonly userController: UserController;

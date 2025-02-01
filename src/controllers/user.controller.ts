@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
-import User from "entities/user.entity";
-import UserService from "services/user.service";
 import { inject } from "inversify";
 import { HttpStatusCode } from "axios";
-import ApiResponse from "utils/api-response.util";
+import UserService from "../services/user.service";
+import { UserSchema } from "../schemas/user.schema";
+import ApiResponse from "../utils/api-response.util";
 
 export default class UserController {
   constructor(@inject(UserService) private readonly userService: UserService) {}
 
   async create(req: Request, res: Response): Promise<void> {
-    const user: User = req.body;
+    const user: UserSchema = req.body;
     // check if user already exists
     const existingUser = await this.userService.getByEmail(user.email);
     if (existingUser) {
@@ -23,7 +23,7 @@ export default class UserController {
   }
 
   async update(req: Request, res: Response): Promise<void> {
-    const user: User = req.body;
+    const user: UserSchema = req.body;
 
     // check email
     const existingUser = await this.userService.getByEmail(user.email);

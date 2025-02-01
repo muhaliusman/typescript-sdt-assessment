@@ -1,16 +1,21 @@
 {
   "scripts": {
-    "start": "ts-node -r tsconfig-paths/register src/server.ts",
-    "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
-    "worker": "ts-node -r tsconfig-paths/register src/worker.ts",
+    "start": "npm run build && node dist/server.js",
+    "worker": "npm run build && node dist/worker.js",
+    "dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register src/server.ts",
+    "worker:dev": "NODE_ENV=development ts-node -r tsconfig-paths/register src/worker.ts",
     "build": "tsc",
     "test": "jest",
     "test:e2e": "NODE_ENV=test jest --config ./test/jest-e2e.json --detectOpenHandles",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
-    "migration:run": "npm run build && npm run typeorm migration:run -- -d ./src/config/typeorm.config.ts",
-    "migration:create": "npm run typeorm migration:create ./src/database/migrations/$npm_config_name",
-    "migration:revert": "npm run build && npm run typeorm migration:revert -- -d ./src/config/typeorm.config.ts"
+    "migration:run": "NODE_ENV=production run typeorm migration:run -- -d ./src/config/typeorm.config.ts",
+    "migration:revert": "NODE_ENV=production npm run typeorm migration:revert -- -d ./src/config/typeorm.config.ts",
+    "migration:run:dev": "NODE_ENV=development npm run typeorm migration:run -- -d ./src/config/typeorm.config.ts",
+    "migration:revert:dev": "NODE_ENV=development npm run typeorm migration:revert -- -d ./src/config/typeorm.config.ts",
+    "migration:run:test": "NODE_ENV=test npm run typeorm migration:run -- -d ./src/config/typeorm.config.ts",
+    "migration:revert:test": "NODE_ENV=test npm run typeorm migration:revert -- -d ./src/config/typeorm.config.ts",
+    "migration:create": "npm run typeorm migration:create ./src/database/migrations/$npm_config_name"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",

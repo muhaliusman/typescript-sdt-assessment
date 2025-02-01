@@ -8,6 +8,12 @@ export const AppDataSource = new DataSource({
   username: env.DB_USER,
   password: env.DB_PASSWORD,
   database: env.DB_NAME,
-  entities: ["dist/**/*.entity.js"],
-  migrations: ["dist/database/migrations/*.js"],
+  entities:
+    env.NODE_ENV === "production"
+      ? ["dist/**/*.entity.js"]
+      : ["src/**/*.entity.ts"],
+  migrations:
+    env.NODE_ENV === "production"
+      ? ["dist/database/migrations/*.js"]
+      : ["src/database/migrations/*.ts"],
 });

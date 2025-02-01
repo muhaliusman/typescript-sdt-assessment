@@ -29,6 +29,7 @@ const envSchema = z.object({
     .default("6379"),
   REDIS_HOST: z.string().nonempty(),
   EMAIL_ENDPOINT: z.string().nonempty(),
+  NODE_ENV: z.string().default("production"),
 });
 
 export const env = envSchema.parse(process.env);

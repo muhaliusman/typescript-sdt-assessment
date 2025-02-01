@@ -61,7 +61,7 @@ EMAIL_ENDPOINT=https://fake-endpoint/send-email
 run migration to set initial tables
 
 ```bash
-npm run migration:run
+npm run migration:run:dev
 ```
 
 Run the application
@@ -110,6 +110,13 @@ Flow:
 For more details, please see this diagram:
 
 ![Flow 1](https://i.imgur.com/0LjAMhe.png) ![Flw 2](https://i.imgur.com/BUwmD3z.png)
+
+**NOTE** : it is necessary to run the worker so that the queue can be consumed.
+
+```bash
+npm run worker:dev # in development env
+npm run worket # in production
+```
 
 ## Test
 
